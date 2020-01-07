@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace BooksCatalogueAPI.Models
 {
     public class Book
@@ -8,5 +10,6 @@ namespace BooksCatalogueAPI.Models
         public string Synopsis { get; set; }
         public int ReleaseYear { get; set; }
         public string CoverURL { get; set; }
+        public ICollection<Review> Reviews { get; set; }
     }
 }
