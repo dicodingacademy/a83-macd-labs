@@ -1,0 +1,81 @@
+@model BooksCatalogue.Models.Book
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Book</h4>
+    <hr />
+    <img src="@Html.DisplayFor(model => model.CoverURL)" class="img-fluid" alt="Cover Image" style="margin: 20px;">
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Synopsis)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Synopsis)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleaseYear)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseYear)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Reviews)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.Reviews.Count != 0)
+            {
+                <table class="table">
+                    <tr>
+                        <th>Name</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                    </tr>
+                    @foreach (var item in Model.Reviews)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReviewerName)
+                            </td>
+                            <td>
+                                <span style="font-size: 30px;">@Html.DisplayFor(modelItem => item.Rating)</span>/10
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Comment)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p>Be the first to review</p>
+            }
+            @{
+                // TODO: Tambahkan fungsi pada Controller dan View baru untuk menambahkan data review
+            }
+            <a class="btn btn-primary" asp-controller="Review" asp-action="AddReview" asp-route-bookId="@Model.Id" role="button">Add Review</a>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="text-danger">Delete</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

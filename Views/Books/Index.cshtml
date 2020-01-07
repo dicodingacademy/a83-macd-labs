@@ -1,0 +1,26 @@
+@model IEnumerable<BooksCatalogue.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="card-columns">
+    @foreach(var item in Model)
+    {
+        <a asp-action="Details" asp-route-id="@item.Id" >
+            <div class="card" style="width: 18rem;">
+                <img src="@item.CoverURL" class="card-img" alt="Image Cover">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                </div>
+            </div>
+        </a>
+    }
+</div>
+
