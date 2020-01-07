@@ -25,14 +25,20 @@ namespace BooksCatalogueAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Book>>> GetBook()
         {
-            return await _context.Book.ToListAsync();
+            return await _context.Book
+                .Include(b => b.Reviews)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         // GET: api/Books/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
-            var book = await _context.Book.FindAsync(id);
+            var book = await _context.Book
+                .Include(b => b.Reviews)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.Id == id);
 
             if (book == null)
             {
