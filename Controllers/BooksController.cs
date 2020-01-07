@@ -46,7 +46,7 @@ namespace BooksCatalogueAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBook(int id, Book book)
+        public async Task<IActionResult> PutBook(int id, [FromForm]Book book)
         {
             if (id != book.Id)
             {
@@ -54,6 +54,7 @@ namespace BooksCatalogueAPI.Controllers
             }
 
             _context.Entry(book).State = EntityState.Modified;
+            _context.Entry(book).Property(b => b.CoverURL).IsModified = false;
 
             try
             {
@@ -78,7 +79,7 @@ namespace BooksCatalogueAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
+        public async Task<ActionResult<Book>> PostBook([FromForm]Book book)
         {
             _context.Book.Add(book);
             await _context.SaveChangesAsync();

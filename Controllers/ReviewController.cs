@@ -46,7 +46,7 @@ namespace BooksCatalogueAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutReview(int id, Review review)
+        public async Task<IActionResult> PutReview(int id, [FromForm]Review review)
         {
             if (id != review.Id)
             {
@@ -78,7 +78,7 @@ namespace BooksCatalogueAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Review>> PostReview(Review review)
+        public async Task<ActionResult<Review>> PostReview([FromForm]Review review)
         {
             _context.Review.Add(review);
             await _context.SaveChangesAsync();
