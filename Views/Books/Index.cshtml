@@ -14,10 +14,10 @@
     @foreach(var item in Model)
     {
         <a asp-action="Details" asp-route-id="@item.Id" >
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="max-width: 18rem;">
                 <img src="@item.CoverURL" class="card-img" alt="Image Cover">
                 <div class="card-body">
-                    <h5 class="card-title">@item.Title</h5>
+                    <h5 class="card-title text-dark">@item.Title</h5>
                 </div>
             </div>
         </a>
