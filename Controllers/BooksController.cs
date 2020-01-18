@@ -52,15 +52,25 @@ namespace BooksCatalogueAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBook(int id, [FromForm]Book book)
+        public async Task<IActionResult> PutBook(int id, [FromForm]BookViewModel book)
         {
             if (id != book.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(book).State = EntityState.Modified;
-            _context.Entry(book).Property(b => b.CoverURL).IsModified = false;
+            var newBook = new Book
+            {
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                Synopsis = book.Synopsis,
+                ReleaseYear = book.ReleaseYear,
+                CoverURL = book.CoverURL
+            };
+
+            _context.Entry(newBook).State = EntityState.Modified;
+            _context.Entry(newBook).Property(b => b.CoverURL).IsModified = false;
 
             try
             {
@@ -85,9 +95,18 @@ namespace BooksCatalogueAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook([FromForm]Book book)
+        public async Task<ActionResult<Book>> PostBook([FromForm]BookViewModel book)
         {
-            _context.Book.Add(book);
+            var newBook = new Book
+            {
+                Title = book.Title,
+                Author = book.Author,
+                Synopsis = book.Synopsis,
+                ReleaseYear = book.ReleaseYear,
+                CoverURL = book.CoverURL
+            };
+            
+            _context.Book.Add(newBook);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBook", new { id = book.Id }, book);
