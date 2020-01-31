@@ -2,11 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using BooksCatalogue.Models;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using System.IO;
 using System.Net.Http;
 using System.Net;
 using System.Text.Json;
@@ -18,12 +15,12 @@ namespace BooksCatalogue.Controllers
     {
         // private string apiEndpoint = "https://bookscatalogueapi-dicoding.azurewebsites.net/api/books/";
         private string apiEndpoint = "https://localhost:8000/api/books/";
-        private HttpClient client;
+        private readonly HttpClient _client;
         public BooksController()
         {
             // Use this client handler to bypass ssl policy errors
             // clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            client = new HttpClient();
+            _client = new HttpClient();
         }
 
         // GET: Books
@@ -31,7 +28,7 @@ namespace BooksCatalogue.Controllers
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint);
 
-            HttpResponseMessage response = await client.SendAsync(request);
+            HttpResponseMessage response = await _client.SendAsync(request);
 
             switch(response.StatusCode)
             {
@@ -54,7 +51,7 @@ namespace BooksCatalogue.Controllers
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint+id);
 
-            HttpResponseMessage response = await client.SendAsync(request);
+            HttpResponseMessage response = await _client.SendAsync(request);
 
             switch(response.StatusCode)
             {
@@ -94,7 +91,7 @@ namespace BooksCatalogue.Controllers
 
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, apiEndpoint);
                 request.Content = content;
-                HttpResponseMessage response = await client.SendAsync(request);
+                HttpResponseMessage response = await _client.SendAsync(request);
 
                 switch (response.StatusCode)
                 {
@@ -122,7 +119,7 @@ namespace BooksCatalogue.Controllers
             
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint+id);
 
-            HttpResponseMessage response = await client.SendAsync(request);
+            HttpResponseMessage response = await _client.SendAsync(request);
 
             switch(response.StatusCode)
             {
@@ -161,7 +158,7 @@ namespace BooksCatalogue.Controllers
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, apiEndpoint + id);
                 request.Content = content;
 
-                HttpResponseMessage response = await client.SendAsync(request);
+                HttpResponseMessage response = await _client.SendAsync(request);
 
                 switch (response.StatusCode)
                 {
@@ -186,7 +183,7 @@ namespace BooksCatalogue.Controllers
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint+id);
 
-            HttpResponseMessage response = await client.SendAsync(request);
+            HttpResponseMessage response = await _client.SendAsync(request);
 
             switch(response.StatusCode)
             {
@@ -206,7 +203,7 @@ namespace BooksCatalogue.Controllers
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, apiEndpoint + id);
 
-            HttpResponseMessage response = await client.SendAsync(request);
+            HttpResponseMessage response = await _client.SendAsync(request);
 
             switch (response.StatusCode)
             {
