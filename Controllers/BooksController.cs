@@ -18,16 +18,17 @@ namespace BooksCatalogue.Controllers
     {
         // private string apiEndpoint = "https://bookscatalogueapi-dicoding.azurewebsites.net/api/books/";
         private string apiEndpoint = "https://localhost:8000/api/books/";
+        private HttpClient client;
         public BooksController()
         {
             // Use this client handler to bypass ssl policy errors
             // clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            client = new HttpClient();
         }
 
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint);
 
             HttpResponseMessage response = await client.SendAsync(request);
@@ -51,7 +52,6 @@ namespace BooksCatalogue.Controllers
                 return NotFound();
             }
 
-            HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint+id);
 
             HttpResponseMessage response = await client.SendAsync(request);
@@ -84,7 +84,6 @@ namespace BooksCatalogue.Controllers
 
             if (IsImage(image))
             {
-                HttpClient client = new HttpClient();
                 MultipartFormDataContent content = new MultipartFormDataContent();
 
                 content.Add(new StringContent(book.Title), "title");
@@ -121,7 +120,6 @@ namespace BooksCatalogue.Controllers
                 return NotFound();
             }
             
-            HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint+id);
 
             HttpResponseMessage response = await client.SendAsync(request);
@@ -159,7 +157,6 @@ namespace BooksCatalogue.Controllers
                     new KeyValuePair<string, string>("releaseYear", book.ReleaseYear.ToString())
                 };
 
-                HttpClient client = new HttpClient();
                 HttpContent content = new FormUrlEncodedContent(httpContent);
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, apiEndpoint + id);
                 request.Content = content;
@@ -187,7 +184,6 @@ namespace BooksCatalogue.Controllers
                 return NotFound();
             }
 
-            HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, apiEndpoint+id);
 
             HttpResponseMessage response = await client.SendAsync(request);
@@ -208,7 +204,6 @@ namespace BooksCatalogue.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, apiEndpoint + id);
 
             HttpResponseMessage response = await client.SendAsync(request);
